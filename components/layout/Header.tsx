@@ -195,7 +195,7 @@ export default function Header() {
               <div className="space-y-2 text-sm text-muted-foreground text-center">
                 <p>© 2024 Mahadi</p>
                 <p className="text-sm text-muted-foreground flex items-center justify-center gap-1">
-                  Made with{" "}
+                  Made with
                   <Heart className="h-4 w-4 text-red-500 fill-red-500" /> by
                   <Link
                     href="https://github.com/Abubokkor98"
