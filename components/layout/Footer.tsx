@@ -6,7 +6,7 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-border/40 bg-background">
-      <div className="container mx-auto py-8 md:py-12 px-4">
+      <div className="container mx-auto pt-8 md:pt-12 px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* About */}
           <div>
@@ -61,7 +61,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="mt-8 pt-6 border-t border-border/40 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="mt-8 py-6 border-t border-border/40 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground text-center sm:text-left">
             © {currentYear} Mahadi. All rights reserved.
           </p>
