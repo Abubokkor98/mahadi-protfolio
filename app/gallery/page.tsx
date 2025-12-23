@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { photos, getPhotosByCategory, type Photo } from "@/lib/data/photos";
+import { getPhotosByCategory, type Photo } from "@/lib/data/photos";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -29,7 +29,7 @@ export default function GalleryPage() {
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
   const [loadingImages, setLoadingImages] = useState<Set<string>>(
-    new Set(photos.map((p) => p.id))
+    new Set() // Start empty, let images handle their own loading state visually or just show them
   );
   const [isZoomed, setIsZoomed] = useState(false);
 
@@ -206,16 +206,11 @@ export default function GalleryPage() {
                           src={photo.src}
                           alt={photo.caption || "Gallery photo"}
                           fill
-                          className={`w-full h-full object-cover transition-opacity duration-300 ${
-                            loadingImages.has(photo.id)
-                              ? "opacity-0"
-                              : "opacity-100"
-                          }`}
+                          className={`w-full h-full object-cover transition-opacity duration-300`}
                           onError={() => handleImageError(photo.id)}
                           onLoad={() => handleImageLoad(photo.id)}
-                          // Trigger loading state immediately
-                          onLoadingComplete={() => handleImageLoad(photo.id)}
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          priority={index < 4} // Prioritize first few images
                         />
                         {/* Overlay */}
                         <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">

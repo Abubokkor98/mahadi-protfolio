@@ -76,6 +76,7 @@ export default function GalleryPreviewSection() {
                         className="w-full h-full object-cover transition-opacity duration-300"
                         onError={() => handleImageError(photo.id)}
                         sizes="(max-width: 768px) 50vw, 33vw"
+                        priority={index < 3} // Prioritize visible preview images
                       />
                       {/* Hover overlay */}
                       <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
