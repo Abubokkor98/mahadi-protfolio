@@ -68,7 +68,7 @@ export default function LoadingScreen() {
         >
           {/* Animated Name Reveal */}
           <div className="flex flex-col items-center gap-4">
-            <div className="flex items-center gap-3 text-5xl sm:text-6xl md:text-7xl font-bold">
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-3xl sm:text-5xl md:text-7xl font-bold">
               {texts.map((text, index) => (
                 <motion.span
                   key={text}
