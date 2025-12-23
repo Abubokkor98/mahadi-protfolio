@@ -46,7 +46,6 @@ export default function GalleryPreviewSection() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.4 }}
-              whileHover={{ scale: 1.05 }}
               className="relative"
             >
               <Card className="h-full p-0 overflow-hidden cursor-pointer hover:shadow-xl transition-shadow group border-0 bg-background/50 backdrop-blur-sm">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -9,7 +9,17 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Calendar, X, ImageIcon, Loader2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Calendar,
+  X,
+  ImageIcon,
+  Loader2,
+  ChevronLeft,
+  ChevronRight,
+  ZoomIn,
+  ZoomOut,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function GalleryPage() {
@@ -21,6 +31,7 @@ export default function GalleryPage() {
   const [loadingImages, setLoadingImages] = useState<Set<string>>(
     new Set(photos.map((p) => p.id))
   );
+  const [isZoomed, setIsZoomed] = useState(false);
 
   const filteredPhotos = getPhotosByCategory(selectedCategory);
 
@@ -41,6 +52,55 @@ export default function GalleryPage() {
       return next;
     });
   };
+
+  // Navigation functions for lightbox
+  const navigatePhoto = useCallback(
+    (direction: "next" | "prev") => {
+      if (!selectedPhoto) return;
+
+      const currentIndex = filteredPhotos.findIndex(
+        (p) => p.id === selectedPhoto.id
+      );
+      let newIndex;
+
+      if (direction === "next") {
+        newIndex = (currentIndex + 1) % filteredPhotos.length;
+      } else {
+        newIndex =
+          (currentIndex - 1 + filteredPhotos.length) % filteredPhotos.length;
+      }
+
+      setSelectedPhoto(filteredPhotos[newIndex]);
+      setIsZoomed(false); // Reset zoom when navigating
+    },
+    [selectedPhoto, filteredPhotos]
+  );
+
+  const getCurrentPhotoIndex = () => {
+    if (!selectedPhoto) return 0;
+    return filteredPhotos.findIndex((p) => p.id === selectedPhoto.id);
+  };
+
+  // Keyboard navigation
+  useEffect(() => {
+    if (!selectedPhoto) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        navigatePhoto("prev");
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        navigatePhoto("next");
+      } else if (e.key === "Escape") {
+        setSelectedPhoto(null);
+        setIsZoomed(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedPhoto, filteredPhotos, navigatePhoto]);
 
   return (
     <div className="min-h-screen py-8 sm:py-12 bg-muted/10">
@@ -187,69 +247,157 @@ export default function GalleryPage() {
         )}
       </div>
 
-      {/* Lightbox Dialog */}
+      {/* Enhanced Lightbox Dialog */}
       <Dialog
         open={!!selectedPhoto}
-        onOpenChange={() => setSelectedPhoto(null)}
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelectedPhoto(null);
+            setIsZoomed(false);
+          }
+        }}
       >
-        <DialogContent className="max-w-5xl p-0 overflow-hidden bg-background/95 backdrop-blur-xl border-none h-[90vh] md:h-auto flex flex-col md:block">
+        <DialogContent
+          className="max-w-[95vw] max-h-[95vh] w-full h-full p-0 overflow-hidden bg-black/95 backdrop-blur-xl border-none"
+          showCloseButton={false}
+        >
           {selectedPhoto && (
-            <div className="relative flex flex-col md:flex-row h-full">
+            <div
+              className="relative w-full h-full flex items-center justify-center"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Photo viewer"
+            >
               {/* Close button */}
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute top-4 right-4 z-50 bg-black/20 hover:bg-black/40 text-white rounded-full backdrop-blur-md"
-                onClick={() => setSelectedPhoto(null)}
+                className="absolute top-4 right-4 z-50 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-md transition-all"
+                onClick={() => {
+                  setSelectedPhoto(null);
+                  setIsZoomed(false);
+                }}
+                aria-label="Close lightbox"
               >
                 <X className="h-5 w-5" />
               </Button>
 
-              {/* Image Side */}
-              <div className="relative w-full md:w-2/3 h-full min-h-[40vh] bg-black/5 flex items-center justify-center">
+              {/* Photo Counter */}
+              <div className="absolute top-4 left-4 z-50 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-white text-sm font-medium">
+                {getCurrentPhotoIndex() + 1} / {filteredPhotos.length}
+              </div>
+
+              {/* Zoom Toggle Button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute top-4 right-20 z-50 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-md transition-all"
+                onClick={() => setIsZoomed(!isZoomed)}
+                aria-label={isZoomed ? "Zoom out" : "Zoom in"}
+              >
+                {isZoomed ? (
+                  <ZoomOut className="h-5 w-5" />
+                ) : (
+                  <ZoomIn className="h-5 w-5" />
+                )}
+              </Button>
+
+              {/* Previous Button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute left-4 top-1/2 -translate-y-1/2 z-40 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-md h-12 w-12 transition-all hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={() => navigatePhoto("prev")}
+                disabled={filteredPhotos.length <= 1}
+                aria-label="Previous photo"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </Button>
+
+              {/* Next Button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute right-4 top-1/2 -translate-y-1/2 z-40 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-md h-12 w-12 transition-all hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={() => navigatePhoto("next")}
+                disabled={filteredPhotos.length <= 1}
+                aria-label="Next photo"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </Button>
+
+              {/* Main Image Container */}
+              <div className="relative w-full h-full flex items-center justify-center p-4 sm:p-8 md:p-12">
                 {failedImages.has(selectedPhoto.id) ? (
                   <div className="text-center p-8">
-                    <ImageIcon className="h-16 w-16 mx-auto text-muted-foreground/30 mb-4" />
-                    <p className="text-muted-foreground">Image not available</p>
+                    <ImageIcon className="h-16 w-16 mx-auto text-white/30 mb-4" />
+                    <p className="text-white/70">Image not available</p>
                   </div>
                 ) : (
-                  <div className="relative w-full h-full min-h-[400px]">
+                  <motion.div
+                    key={selectedPhoto.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.3 }}
+                    className={`relative w-full h-full ${
+                      isZoomed ? "cursor-zoom-out" : "cursor-zoom-in"
+                    }`}
+                    onClick={() => setIsZoomed(!isZoomed)}
+                  >
                     <Image
                       src={selectedPhoto.src}
                       alt={selectedPhoto.caption || "Gallery photo"}
                       fill
-                      className="object-contain"
+                      className={`transition-all duration-300 ${
+                        isZoomed
+                          ? "object-cover hover:scale-110"
+                          : "object-contain"
+                      }`}
                       priority
+                      sizes="95vw"
                     />
-                  </div>
+                  </motion.div>
                 )}
               </div>
 
-              {/* Info Side */}
-              <div className="w-full md:w-1/3 p-6 md:p-8 flex flex-col justify-center bg-background border-l">
-                <div className="space-y-6">
-                  <div>
-                    <Badge variant="secondary" className="mb-3 capitalize">
+              {/* Info Overlay - Bottom */}
+              <div className="absolute bottom-0 left-0 right-0 z-40 bg-linear-to-t from-black/80 via-black/50 to-transparent backdrop-blur-sm p-6 sm:p-8">
+                <div className="max-w-4xl mx-auto space-y-3">
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <Badge
+                      variant="secondary"
+                      className="bg-white/20 text-white border-white/30 capitalize backdrop-blur-md"
+                    >
                       {selectedPhoto.category}
                     </Badge>
-                    <h2 className="text-2xl font-bold leading-tight">
-                      {selectedPhoto.caption}
-                    </h2>
+                    {selectedPhoto.date && (
+                      <div className="flex items-center gap-2 text-white/80 text-sm">
+                        <Calendar className="h-4 w-4" />
+                        <span>{selectedPhoto.date}</span>
+                      </div>
+                    )}
                   </div>
 
-                  {selectedPhoto.date && (
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Calendar className="h-4 w-4" />
-                      <span>{selectedPhoto.date}</span>
-                    </div>
-                  )}
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white leading-tight">
+                    {selectedPhoto.caption || "Untitled Photo"}
+                  </h2>
 
-                  <div className="pt-6 border-t">
-                    <p className="text-sm text-muted-foreground">
-                      Memories from {selectedPhoto.category} collection.
-                      Capturing moments that matter.
-                    </p>
-                  </div>
+                  {/* Keyboard Shortcuts Hint */}
+                  <p className="text-white/60 text-xs sm:text-sm hidden sm:block">
+                    Use{" "}
+                    <kbd className="px-2 py-1 bg-white/10 rounded text-white/80">
+                      ←
+                    </kbd>{" "}
+                    <kbd className="px-2 py-1 bg-white/10 rounded text-white/80">
+                      →
+                    </kbd>{" "}
+                    to navigate •{" "}
+                    <kbd className="px-2 py-1 bg-white/10 rounded text-white/80">
+                      ESC
+                    </kbd>{" "}
+                    to close
+                  </p>
                 </div>
               </div>
             </div>

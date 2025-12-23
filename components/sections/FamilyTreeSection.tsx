@@ -16,7 +16,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Heart } from "lucide-react";
+import { Heart, MousePointerClick } from "lucide-react";
 
 interface FamilyMemberCardProps {
   member: (typeof familyMembers)[0];
@@ -38,10 +38,13 @@ function FamilyMemberCard({ member, index }: FamilyMemberCardProps) {
             stiffness: 260,
             damping: 20,
           }}
-          whileHover={{ scale: 1.05 }}
+          whileHover={{
+            scale: 1.05,
+            transition: { duration: 0.2, ease: "easeOut" },
+          }}
           className="cursor-pointer relative z-10"
         >
-          <Card className="overflow-hidden hover:shadow-xl transition-all border-2 hover:border-primary/50 w-36 sm:w-44 bg-card/50 backdrop-blur-sm">
+          <Card className="overflow-hidden hover:shadow-xl transition-all border-2 hover:border-primary/50 w-32 sm:w-44 bg-card/50 backdrop-blur-sm">
             <CardContent className="p-4 text-center space-y-2">
               <div className="relative mx-auto">
                 <Avatar className="h-20 w-20 sm:h-24 sm:w-24 mx-auto border-4 border-background shadow-md">
@@ -135,14 +138,6 @@ function FamilyMemberCard({ member, index }: FamilyMemberCardProps) {
   );
 }
 
-function ConnectorLine({ height = "h-8" }: { height?: string }) {
-  return (
-    <div className={`flex justify-center w-full ${height}`}>
-      <div className="w-0.5 h-full bg-border" />
-    </div>
-  );
-}
-
 export default function FamilyTreeSection() {
   const generation1 = getMembersByGeneration(1); // Grandparents
   const generation2 = getMembersByGeneration(2); // Parents
@@ -187,12 +182,12 @@ export default function FamilyTreeSection() {
 
           {/* Level 2: Parents */}
           <div className="relative">
-            <div className="flex justify-center items-center gap-4 sm:gap-8">
+            <div className="flex justify-center items-center gap-2 sm:gap-8">
               {mother && <FamilyMemberCard member={mother} index={2} />}
 
               <div className="flex flex-col items-center px-2">
                 <Heart className="text-red-500 fill-red-500 w-6 h-6 animate-pulse" />
-                <div className="w-12 h-px bg-border mt-2" />
+                <div className="w-8 sm:w-12 h-px bg-border mt-2" />
               </div>
 
               {father && <FamilyMemberCard member={father} index={3} />}
@@ -212,9 +207,9 @@ export default function FamilyTreeSection() {
           <div className="h-10" />
 
           {/* Level 3: Children */}
-          <div className="flex justify-center gap-10 sm:gap-24 pt-4 relative">
+          <div className="flex justify-center gap-6 sm:gap-24 pt-4 relative">
             {/* Decorators for connection endpoints */}
-            <div className="absolute top-0 left-1/2 -translate-x-[50%] w-[12rem] sm:w-[20rem] flex justify-between">
+            <div className="absolute top-0 left-1/2 -translate-x-[50%] w-[9.5rem] sm:w-[17rem] flex justify-between">
               <div className="w-px h-6 bg-border" /> {/* Left child drop */}
               <div className="w-px h-6 bg-border" /> {/* Right child drop */}
             </div>
@@ -227,6 +222,25 @@ export default function FamilyTreeSection() {
               />
             ))}
           </div>
+
+          {/* Interactive Hint */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            className="flex items-center justify-center gap-2 mt-12"
+          >
+            <motion.div
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+            >
+              <MousePointerClick className="h-5 w-5 text-primary" />
+            </motion.div>
+            <p className="text-sm font-medium text-primary">
+              Click on anyone to discover what they&apos;re into!
+            </p>
+          </motion.div>
         </div>
       </div>
     </section>
