@@ -18,9 +18,10 @@ import {
   ArrowUpRight,
   Calendar,
   Sparkles,
+  LucideIcon,
 } from "lucide-react";
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, LucideIcon> = {
   School,
   BookOpen,
   Award,
@@ -46,7 +47,7 @@ function getCategoryStyles(category: string) {
       bg: "bg-primary/10",
       border: "border-primary/20",
       accent:
-        "bg-gradient-to-br from-zinc-700 via-zinc-800 to-zinc-900 dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-300",
+        "bg-linear-to-br from-zinc-700 via-zinc-800 to-zinc-900 dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-300",
       iconColor: "text-zinc-100 dark:text-zinc-900",
     },
     achievement: {
@@ -54,7 +55,7 @@ function getCategoryStyles(category: string) {
       bg: "bg-primary/10",
       border: "border-primary/20",
       accent:
-        "bg-gradient-to-br from-zinc-700 via-zinc-800 to-zinc-900 dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-300",
+        "bg-linear-to-br from-zinc-700 via-zinc-800 to-zinc-900 dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-300",
       iconColor: "text-zinc-100 dark:text-zinc-900",
     },
     milestone: {
@@ -62,7 +63,7 @@ function getCategoryStyles(category: string) {
       bg: "bg-primary/10",
       border: "border-primary/20",
       accent:
-        "bg-gradient-to-br from-zinc-700 via-zinc-800 to-zinc-900 dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-300",
+        "bg-linear-to-br from-zinc-700 via-zinc-800 to-zinc-900 dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-300",
       iconColor: "text-zinc-100 dark:text-zinc-900",
     },
     future: {
@@ -70,7 +71,7 @@ function getCategoryStyles(category: string) {
       bg: "bg-muted",
       border: "border-border",
       accent:
-        "bg-gradient-to-br from-zinc-600 via-zinc-700 to-zinc-800 dark:from-zinc-200 dark:via-zinc-300 dark:to-zinc-400",
+        "bg-linear-to-br from-zinc-600 via-zinc-700 to-zinc-800 dark:from-zinc-200 dark:via-zinc-300 dark:to-zinc-400",
       iconColor: "text-zinc-100 dark:text-zinc-900",
     },
   };
@@ -93,7 +94,7 @@ export default function SchoolLifeSection() {
             <Sparkles className="w-4 h-4" />
             <span className="text-sm font-medium">My Journey</span>
           </div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
             Academic Journey
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -126,7 +127,7 @@ export default function SchoolLifeSection() {
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.6, delay: 0.3 }}
-                      className="relative aspect-[16/10] rounded-2xl overflow-hidden"
+                      className="relative aspect-16/10 rounded-2xl overflow-hidden"
                     >
                       <Image
                         src={event.image}
@@ -135,7 +136,7 @@ export default function SchoolLifeSection() {
                         className="object-cover"
                         sizes="(max-width: 1024px) 100vw, 50vw"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                      <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
                     </motion.div>
                   )}
 
@@ -213,7 +214,7 @@ export default function SchoolLifeSection() {
                     } relative`}
                   >
                     {event.image ? (
-                      <div className="relative aspect-[4/3] rounded-3xl overflow-hidden group">
+                      <div className="relative aspect-4/3 rounded-3xl overflow-hidden group">
                         <Image
                           src={event.image}
                           alt={event.title}
@@ -221,7 +222,7 @@ export default function SchoolLifeSection() {
                           className="object-cover group-hover:scale-105 transition-transform duration-500"
                           sizes="(max-width: 1024px) 100vw, 50vw"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
 
                         {/* Floating year badge */}
                         <div className="absolute bottom-6 right-6">
@@ -234,7 +235,7 @@ export default function SchoolLifeSection() {
                       </div>
                     ) : (
                       <div
-                        className={`aspect-[4/3] rounded-3xl ${styles.bg} flex items-center justify-center`}
+                        className={`aspect-4/3 rounded-3xl ${styles.bg} flex items-center justify-center`}
                       >
                         <Icon
                           className={`w-24 h-24 ${styles.color} opacity-20`}

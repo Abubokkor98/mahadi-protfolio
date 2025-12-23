@@ -10,9 +10,10 @@ import {
   Globe,
   Sparkles,
   CheckCircle2,
+  LucideIcon,
 } from "lucide-react";
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, LucideIcon> = {
   Stethoscope,
   GraduationCap,
   Heart,
@@ -50,7 +51,8 @@ export default function DreamsSection() {
             My Aspirations
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl">
-            The milestones I'm working towards and the impact I want to create.
+            The milestones I&apos;m working towards and the impact I want to
+            create.
           </p>
           <div className="h-1 w-20 bg-primary rounded-full mt-6" />
         </motion.div>

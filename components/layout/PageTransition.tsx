@@ -20,7 +20,7 @@ const pageVariants = {
 
 const pageTransition = {
   duration: 0.3,
-  ease: [0.42, 0, 0.58, 1], // easeInOut bezier curve
+  ease: [0.42, 0, 0.58, 1] as const, // easeInOut bezier curve
 };
 
 interface PageTransitionProps {

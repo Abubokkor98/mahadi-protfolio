@@ -32,9 +32,27 @@ export default function LoadingScreen() {
         clearTimeout(loadTimer);
       };
     } else {
-      setIsLoading(false);
+      setTimeout(() => setIsLoading(false), 0);
     }
   }, [textIndex, texts.length]);
+
+  const [particles, setParticles] = useState<
+    { left: string; top: string; duration: number; delay: number }[]
+  >([]);
+
+  useEffect(() => {
+    // Generate particles only on client-side mount
+    setTimeout(() => {
+      setParticles(
+        Array.from({ length: 20 }).map(() => ({
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+          duration: 2 + Math.random() * 2,
+          delay: Math.random() * 2,
+        }))
+      );
+    }, 0);
+  }, []);
 
   return (
     <AnimatePresence mode="wait">
@@ -63,7 +81,7 @@ export default function LoadingScreen() {
                     duration: 0.6,
                     ease: "easeOut",
                   }}
-                  className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent"
+                  className="bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent"
                 >
                   {text}
                 </motion.span>
@@ -107,22 +125,22 @@ export default function LoadingScreen() {
 
           {/* Background decoration */}
           <div className="absolute inset-0 -z-10 overflow-hidden">
-            {[...Array(20)].map((_, i) => (
+            {particles.map((particle, i) => (
               <motion.div
                 key={i}
                 className="absolute h-1 w-1 rounded-full bg-primary/20"
                 style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
+                  left: particle.left,
+                  top: particle.top,
                 }}
                 animate={{
                   scale: [1, 1.5, 1],
                   opacity: [0.2, 0.5, 0.2],
                 }}
                 transition={{
-                  duration: 2 + Math.random() * 2,
+                  duration: particle.duration,
                   repeat: Infinity,
-                  delay: Math.random() * 2,
+                  delay: particle.delay,
                 }}
               />
             ))}

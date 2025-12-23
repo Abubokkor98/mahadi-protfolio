@@ -11,9 +11,10 @@ import {
   Music,
   MessageCircle,
   Activity,
+  LucideIcon,
 } from "lucide-react";
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, LucideIcon> = {
   Gamepad2,
   BookOpen,
   Trophy,
@@ -53,8 +54,8 @@ export default function HobbiesSection() {
             What Makes Me Happy
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            When I'm not studying, you'll find me exploring these passions and
-            interests
+            When I&apos;m not studying, you&apos;ll find me exploring these
+            passions and interests
           </p>
         </motion.div>
 
