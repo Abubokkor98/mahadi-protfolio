@@ -10,7 +10,7 @@ Welcome to **Mahadi's World**, a bespoke personal portfolio website meticulously
 
 The story behind this website is quite special. When Mahadi asked me for his own website, I knew I wanted to create something extraordinary, but I also wanted to explore the future of coding. **I did not write a single line of code myself.** Instead, the moment he asked, Google's "Antigravity" agent came to mind. I built this entire project simply by giving commands to the Antigravity agent, guiding it to bring my vision to life. It's a testament to how human creativity and AI collaboration can build something beautiful.
 
-The primary objective of this application is to capture the essence of Mahadi's vibrant personality—his curiosity, his dreams of becoming a doctor, and his strong family bonds. It is designed to be more than just a static webpage; it is an interactive narrative of his life, built with modern web technologies to ensure a premium and engaging user experience.
+The primary objective of this application is to capture the essence of Mahadi's vibrant personality and his curiosity, his dreams of becoming a doctor, and his strong family bonds. It is designed to be more than just a static webpage; it is an interactive narrative of his life, built with modern web technologies to ensure a premium and engaging user experience.
 
 ## Design Philosophy: The "Magical Lofi" Aesthetic
 
