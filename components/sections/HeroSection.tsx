@@ -119,7 +119,7 @@ export default function HeroSection() {
               {/* Image container */}
               <div className="relative rounded-3xl overflow-hidden border-4 border-primary/20 shadow-2xl">
                 <Image
-                  src="/images/photo1.jpeg"
+                  src="/images/mahadi-hero.jpeg"
                   alt="Mahadi"
                   width={600}
                   height={600}

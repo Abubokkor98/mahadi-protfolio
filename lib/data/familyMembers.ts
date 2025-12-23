@@ -74,7 +74,7 @@ export const familyMembers: FamilyMember[] = [
     id: "mahadi",
     name: "Mahadi",
     relationship: "Me",
-    photo: "/images/mahadi.png",
+    photo: "/images/mahadi.jpeg",
     age: 12,
     grade: "Class 7 → Class 8",
     funFact: "Future doctor and tech enthusiast!",
