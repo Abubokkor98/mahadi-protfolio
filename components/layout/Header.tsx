@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Menu,
   Home,
@@ -30,21 +30,29 @@ const navLinks = [
   { href: "/#school", label: "School", icon: GraduationCap, isHash: true },
   { href: "/#hobbies", label: "Hobbies", icon: Palette, isHash: true },
   { href: "/#dreams", label: "Dreams", icon: Sparkles, isHash: true },
-  { href: "/gallery", label: "Gallery", icon: ImageIcon, isHash: false },
+  { href: "/#gallery", label: "Gallery", icon: ImageIcon, isHash: true },
 ];
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   const scrollToSection = (href: string) => {
     if (href.startsWith("/#")) {
-      const id = href.substring(2);
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      // If we're on the home page, scroll directly
+      if (pathname === "/") {
+        const id = href.substring(2);
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        setIsOpen(false);
+      } else {
+        // If we're on a different page, navigate to home page with hash
+        // The browser will automatically scroll to the section after navigation
+        router.push(href);
       }
-      setIsOpen(false);
     }
   };
 
