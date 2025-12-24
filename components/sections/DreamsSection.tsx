@@ -50,7 +50,7 @@ export default function DreamsSection() {
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
             My Aspirations
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             The milestones I&apos;m working towards and the impact I want to
             create.
           </p>
