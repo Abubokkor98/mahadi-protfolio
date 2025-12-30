@@ -71,7 +71,7 @@ A dedicated space for memories, featuring a premium interactive experience.
 
 - **Premium 3D Stacked Carousel**: A stunning, depth-aware rotary carousel that elegantly displays photos with smooth spring animations and 3D perspective.
 - **Touch Swipe Navigation**: Fully responsive touch controls allowing users to swipe left or right to navigate through memories on mobile and tablet devices.
-- **Smart Responsive Layout**: An intelligent dual-navigation system that adapts to screen size—side floating buttons for desktop, and non-intrusive bottom controls for mobile devices.
+- **Smart Responsive Layout**: An intelligent dual-navigation system that adapts to screen size, side floating buttons for desktop, and non-intrusive bottom controls for mobile devices.
 - **Glassmorphism Design**: Featured images are framed with modern blurred glass effects and dynamic depth shadows, creating a high-end visual aesthetic.
 
 ## Getting Started
@@ -88,7 +88,7 @@ Ensure you have **Node.js** (v18 or higher) installed on your machine.
 
     ```bash
     git clone https://github.com/Abubokkor98/mahadi-protfolio.git
-    cd mahadi-protfolio
+    cd mahadi-
     ```
 
 2.  **Install dependencies:**
