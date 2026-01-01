@@ -91,19 +91,6 @@ export default function GalleryPreviewSection() {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-16"
         >
-          <motion.div
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6"
-          >
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-primary">
-              3D Gallery Experience
-            </span>
-          </motion.div>
-
           <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-4 bg-linear-to-r from-foreground via-foreground to-foreground/70 bg-clip-text text-transparent">
             Memories & Moments
           </h2>
@@ -301,10 +288,9 @@ export default function GalleryPreviewSection() {
             <Button
               size="lg"
               asChild
-              className="gap-2 shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 transition-shadow"
+              className="gap-2 shadow-md shadow-primary/20 transition-shadow"
             >
               <Link href="/gallery">
-                <Sparkles className="h-4 w-4" />
                 View Full Gallery
                 <ArrowRight className="h-4 w-4" />
               </Link>
@@ -318,10 +304,8 @@ export default function GalleryPreviewSection() {
             viewport={{ once: true }}
             transition={{ delay: 0.7 }}
           >
-            {photos.length} photos across
-            <span className="text-primary font-semibold">
-              {new Set(photos.map((p) => p.category)).size} categories
-            </span>
+            {photos.length} photos across{" "}
+            {new Set(photos.map((p) => p.category)).size} categories
           </motion.p>
         </motion.div>
       </div>
